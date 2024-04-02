@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: cloudFileStorage
+  datasource:
+    username: spring
+    password: SRplWb1Eq4Sfy37bbH1MnRqSHgpI3ew
+    url: jdbc:postgresql://localhost:5432/cloudFileStorage
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.PostgreSQLDialect"
