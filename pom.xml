@@ -20,6 +20,7 @@
 		<java.version>17</java.version>
 		<postgresql.version>42.7.3</postgresql.version>
 		<lombok.version>1.18.30</lombok.version>
+		<flyway.version>10.10.0</flyway.version>
 	</properties>
 
 	<dependencies>
@@ -62,6 +63,13 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 			<version>${lombok.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+			<version>${flyway.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
