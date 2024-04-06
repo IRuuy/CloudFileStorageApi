@@ -10,8 +10,8 @@ CREATE TABLE role (
     name VARCHAR
 );
 
-CREATE TABLE user_role (
-    id_user VARCHAR REFERENCES "user"(id),
-    id_role INT REFERENCES role(id),
-    UNIQUE(id_user, id_role)
+CREATE TABLE users_roles (
+    user_id VARCHAR REFERENCES "user"(id),
+    role_id INT REFERENCES role(id),
+    UNIQUE(user_id, role_id)
 );
