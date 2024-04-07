@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.shulgindaniil.cloudFileStorage.security.exception.PasswordNotEqualConfirmationPasswordException;
 import ru.shulgindaniil.cloudFileStorage.user.domain.entity.User;
 import ru.shulgindaniil.cloudFileStorage.user.domain.exception.UserAlreadyExistException;
 import ru.shulgindaniil.cloudFileStorage.user.domain.exception.UserNotFoundException;
@@ -40,6 +41,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto create(UserDto userDto) {
+        passwordValidation(userDto.getPassword(), userDto.getConfirmPassword());
+
         userRepository.findByEmail(userDto.getEmail()).ifPresent(user -> {
             throw new UserAlreadyExistException(
                     String.format("User with email - %s already exist!", user.getEmail())
@@ -54,5 +57,10 @@ public class UserServiceImpl implements UserService {
 
         user = userRepository.save(user);
         return userMapper.toDto(user);
+    }
+
+    private void passwordValidation(String password, String confirmPassword) {
+        if(!password.equals(confirmPassword))
+            throw new PasswordNotEqualConfirmationPasswordException();
     }
 }
