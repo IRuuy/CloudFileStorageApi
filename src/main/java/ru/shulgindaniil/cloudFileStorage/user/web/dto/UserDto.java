@@ -14,6 +14,8 @@ import java.util.Set;
 @Data
 @Builder
 public class UserDto {
+    private String id;
+
     @NotNull(message = "Name must be not null.", groups = {OnCreate.class, OnUpdate.class})
     @Length(max=255, message = "Length name must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
     private String name;
