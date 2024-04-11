@@ -22,3 +22,16 @@ services:
     volumes:
     - ~/data/redis:/var/lib/redis
     - ~/data/redis/config:/usr/local/etc/redis/redis.conf
+
+  minio:
+    image: bitnami/minio
+    container_name: minio
+    restart: unless-stopped
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      - MINIO_ROOT_USER=spring
+      - MINIO_ROOT_PASSWORD=R0dl9Dp29pr5CzQIJPC3dBrsC3u1nMHoug
+    volumes:
+      - /var/lib/minio/data:/var/lib/minio/data
