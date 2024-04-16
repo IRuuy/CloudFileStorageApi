@@ -1,0 +1,44 @@
+{
+    "file" : {
+        "type": "object",
+        "properties": {
+          "id" : {
+            "type" : "string",
+            "title": "Идентификатор файла",
+            "nullable": false,
+            "example" : "asfasf3"
+          },
+          "name" : {
+            "type" : "string",
+            "title": "Название файла",
+            "nullable": false,
+            "example" : "Contact.pdf"
+          },
+          "parent": {
+            "type": "object",
+            "title": "Родительский обьект",
+            "properties": {
+              "id" : {
+                "type": "string",
+                "title": "Идентификатор родитеского обьекта",
+                "nullable": false,
+                "example" : "543rf32rf"
+              },
+              "type" : {
+                "type": "string",
+                "title": "Тип родитеского обьекта",
+                "nullable": false,
+                "example" : "folder"
+              },
+              "name" : {
+                "type": "string",
+                "title": "Название родитеского обьекта",
+                "nullable": false,
+                "example": "newfolder"
+              }
+            },
+            "nullable": false
+          }
+        }  
+    }
+}

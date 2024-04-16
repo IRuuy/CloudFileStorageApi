@@ -1,0 +1,11 @@
+{
+    "fileId" : {
+        "name": "fileId",
+        "in": "path",
+        "description": "Идентификатор файла",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+    }
+}

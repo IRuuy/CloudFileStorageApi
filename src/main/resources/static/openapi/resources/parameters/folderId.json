@@ -1,0 +1,11 @@
+{
+    "folderId" : {
+        "name": "folderId",
+        "in": "path",
+        "description": "Идентификатор папки",
+        "required": true,
+        "schema": {
+            "type": "string"
+        }
+    }
+}

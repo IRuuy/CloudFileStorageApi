@@ -1,0 +1,10 @@
+{
+    "recursed" : {
+        "name": "recursed",
+        "description": "Флаг рекурсивного удаления файлов/папок",
+        "in": "query",
+        "schema": {
+          "type" : "string"
+        }
+    }
+}

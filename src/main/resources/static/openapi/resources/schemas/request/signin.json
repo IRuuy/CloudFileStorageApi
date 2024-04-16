@@ -1,0 +1,19 @@
+{
+    "signin" : {
+        "type": "object",
+        "properties": {
+            "email" : {
+                "type" : "string",
+                "title": "Почта",
+                "nullable": false,
+                "example" : "test@yandex.ru"
+            },
+            "password" : {
+                "type": "string",
+                "title": "Пароль",
+                "nullable": false,
+                "example" : "testpassword"
+            }
+        }
+    }
+}

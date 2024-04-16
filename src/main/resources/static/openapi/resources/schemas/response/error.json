@@ -1,0 +1,27 @@
+{
+    "error" : {
+        "type": "object",
+        "properties": {
+            "path" : {
+                "type": "string",
+                "title": "Url ошибки",
+                "nullable" : false
+            },
+            "message" : {
+                "type": "string",
+                "title": "Сообщение ошибки",
+                "nullable" : false
+            },
+            "statusCode" : {
+                "type": "integer",
+                "title": "Код статуса ошибки",
+                "nullable": false
+            },
+            "timestamp" : {
+                "type": "string",
+                "title": "Время ошибки",
+                "nullable": false
+            }
+        }
+    }
+}

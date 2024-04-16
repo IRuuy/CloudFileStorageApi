@@ -1,0 +1,10 @@
+{
+    "sessionId" : {
+        "name": "SESSIONID",
+        "description" : "Идентификатор сессии",
+        "in": "header",
+        "schema": {
+            "type" : "string"
+        }
+    }
+}

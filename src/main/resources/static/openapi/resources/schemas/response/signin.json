@@ -1,0 +1,53 @@
+{
+    "signin" : {
+        "type": "object",
+        "properties": {
+            "id" : {
+                "type": "string",
+                "title": "Идентификатор пользователя",
+                "nullable": false,
+                "example" : "sadf0asdf"
+            },
+            "name" : {
+                "type": "string",
+                "title": "Имя пользователя",
+                "nullable": false,
+                "example": "Daniil"
+            },
+            "email" : {
+                "type": "string",
+                "title": "Почта пользователя",
+                "nullable": false,
+                "example": "test@yandex.ru"
+            },
+            "roles" : {
+                "type": "array",
+                "items" : {
+                    "type": "object",
+                    "properties": {
+                        "id" : {
+                        "type": "string",
+                        "title": "Идентификатор роли",
+                        "nullable": false
+                        },
+                        "name" : {
+                        "title": "Название роли",
+                        "type": "string",
+                        "nullable": false
+                        }
+                    }
+                },
+                "example" : [
+                    {
+                        "id" : 1,
+                        "name" : "ROLE_USER"
+                    },
+                    {
+                        "id" : 2,
+                        "name": "ROLE_ADMIN"
+                    }
+                ]
+            }
+        }
+    }
+}
