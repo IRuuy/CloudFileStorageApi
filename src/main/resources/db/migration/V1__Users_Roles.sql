@@ -11,7 +11,11 @@ CREATE TABLE role (
 );
 
 CREATE TABLE users_roles (
+    id SERIAL PRIMARY KEY,
     user_id VARCHAR REFERENCES "user"(id),
     role_id INT REFERENCES role(id),
     UNIQUE(user_id, role_id)
 );
+
+INSERT INTO role (name)
+VALUES ('ROLE_USER'), ('ROLE_ADMIN');
