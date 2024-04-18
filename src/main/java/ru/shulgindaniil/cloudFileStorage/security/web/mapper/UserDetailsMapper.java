@@ -1,4 +1,4 @@
-package ru.shulgindaniil.cloudFileStorage.security.utils;
+package ru.shulgindaniil.cloudFileStorage.security.web.mapper;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,8 +10,8 @@ import ru.shulgindaniil.cloudFileStorage.user.web.dto.UserDto;
 import java.util.List;
 import java.util.Set;
 
-public class UserDetailsFactory {
-    public static UserDetails create(UserDto userDto) {
+public class UserDetailsMapper {
+    public static UserDetails toUserDetails(UserDto userDto) {
         return UserDetailsImpl.builder()
                 .id(userDto.getId())
                 .username(userDto.getEmail())
