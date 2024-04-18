@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UniqueIdGenerator<T> {
-    private final JpaRepository<T, String> repository;
-
-    public String generate(Integer countBytes) {
+    public String generate(JpaRepository<T, String> repository, Integer countBytes) {
         String generatedId;
         do {
             generatedId = IdGenerator.generate(countBytes);
