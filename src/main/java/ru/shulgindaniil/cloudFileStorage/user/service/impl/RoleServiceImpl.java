@@ -13,9 +13,16 @@ import ru.shulgindaniil.cloudFileStorage.user.web.mapper.RoleMapper;
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
+
     @Override
     public RoleDto getUserRole() {
         Role roleUser = roleRepository.findByName("ROLE_USER").get();
+        return roleMapper.toDto(roleUser);
+    }
+
+    @Override
+    public RoleDto getAdminRole() {
+        Role roleUser = roleRepository.findByName("ROLE_ADMIN").get();
         return roleMapper.toDto(roleUser);
     }
 }
