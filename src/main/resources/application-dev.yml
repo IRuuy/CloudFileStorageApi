@@ -22,5 +22,17 @@ spring:
       hibernate:
         dialect: "org.hibernate.dialect.PostgreSQLDialect"
 
+  minio:
+    client:
+      endpoint: http://127.0.0.1:9000
+      accessKey: spring
+      secretKey: R0dl9Dp29pr5CzQIJPC3dBrsC3u1nMHoug
+    bucket: user-data
+
 app:
   countOfBytesToGenerateUserId: 5
+  countBytesToGenerateObjectId: 8
+  
+springdoc:
+  swagger-ui:
+    url: /openapi/openapi.json
