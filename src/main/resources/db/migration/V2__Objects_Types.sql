@@ -11,7 +11,7 @@ CREATE TABLE file_object (
     name VARCHAR,
     created_at TIMESTAMP DEFAULT NOW(),
     modified_at TIMESTAMP DEFAULT NOW(),
-    size INT DEFAULT 0,
+    size BIGINT DEFAULT 0,
 
     CONSTRAINT fk_parent_file_object FOREIGN KEY (parent_id) REFERENCES file_object(id) ON DELETE CASCADE,
     CONSTRAINT fk_type_file_object FOREIGN KEY (type_id) REFERENCES file_object_type(id),
