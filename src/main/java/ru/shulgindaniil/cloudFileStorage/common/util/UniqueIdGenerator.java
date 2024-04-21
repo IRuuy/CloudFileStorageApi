@@ -11,7 +11,7 @@ public class UniqueIdGenerator<T> {
         String generatedId;
         do {
             generatedId = IdGenerator.generate(countBytes);
-        } while (repository.findById(generatedId).isPresent());
+        } while (repository.existsById(generatedId));
 
         return generatedId;
     }
