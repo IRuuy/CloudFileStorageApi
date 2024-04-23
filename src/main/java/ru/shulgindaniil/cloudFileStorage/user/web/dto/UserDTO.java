@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Data
 @Builder
-public class UserDto {
+public class UserDTO {
     private String id;
 
     @NotNull(message = "Name must be not null.", groups = {OnCreate.class, OnUpdate.class})
@@ -25,7 +25,7 @@ public class UserDto {
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Set<RoleDto> roles;
+    private Set<RoleDTO> roles;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Confirm password must be not null.", groups = OnCreate.class)
