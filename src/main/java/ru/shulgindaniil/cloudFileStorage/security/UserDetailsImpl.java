@@ -1,4 +1,4 @@
-package ru.shulgindaniil.cloudFileStorage.security.web.dto;
+package ru.shulgindaniil.cloudFileStorage.security;
 
 import lombok.*;
 import org.springframework.security.core.CredentialsContainer;

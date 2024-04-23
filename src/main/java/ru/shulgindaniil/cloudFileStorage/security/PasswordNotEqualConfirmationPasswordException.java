@@ -1,4 +1,4 @@
-package ru.shulgindaniil.cloudFileStorage.security.exception;
+package ru.shulgindaniil.cloudFileStorage.security;
 
 public class PasswordNotEqualConfirmationPasswordException extends RuntimeException {
     public PasswordNotEqualConfirmationPasswordException() {

@@ -1,4 +1,4 @@
-package ru.shulgindaniil.cloudFileStorage.security.web.dto;
+package ru.shulgindaniil.cloudFileStorage.security;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

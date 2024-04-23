@@ -1,4 +1,4 @@
-package ru.shulgindaniil.cloudFileStorage.security.web.controller;
+package ru.shulgindaniil.cloudFileStorage.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,29 +12,22 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import ru.shulgindaniil.cloudFileStorage.security.web.dto.LoginRequest;
+import org.springframework.web.bind.annotation.*;
 import ru.shulgindaniil.cloudFileStorage.user.service.UserService;
-import ru.shulgindaniil.cloudFileStorage.user.web.dto.UserDto;
-import ru.shulgindaniil.cloudFileStorage.user.web.validation.OnCreate;
+import ru.shulgindaniil.cloudFileStorage.user.web.dto.UserDTO;
+import ru.shulgindaniil.cloudFileStorage.common.validation.OnCreate;
 
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    public static final String SIGN_IN = "/api/v1/signin";
-    public static final String SIGN_UP = "/api/v1/signup";
-    public static final String CSRF = "/api/v1/csrf";
-
-    @PostMapping(SIGN_IN)
+    @PostMapping("/signin")
     public ResponseEntity<?> signIn(HttpServletRequest req,
                                     @Validated @RequestBody LoginRequest loginRequest) {
         Authentication authRequest = UsernamePasswordAuthenticationToken.unauthenticated(
@@ -50,12 +43,12 @@ public class AuthController {
         return ResponseEntity.ok(authResponse.getPrincipal());
     }
 
-    @PostMapping(SIGN_UP)
-    public ResponseEntity<UserDto> signUp(@Validated(OnCreate.class) @RequestBody UserDto dto) {
+    @PostMapping("/signup")
+    public ResponseEntity<UserDTO> signUp(@Validated(OnCreate.class) @RequestBody UserDTO dto) {
         return ResponseEntity.ok(userService.create(dto));
     }
 
-    @GetMapping(CSRF)
+    @GetMapping("/csrf")
     public void getCsrfToken(HttpServletResponse response, CsrfToken csrfToken) {
         response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
     }
