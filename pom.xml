@@ -24,6 +24,7 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
 		<jakarta-validation.version>3.0.2</jakarta-validation.version>
+		<minio-version>8.5.2</minio-version>
 	</properties>
 
 	<dependencies>
@@ -107,6 +108,18 @@
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>${minio-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 	</dependencies>
 
