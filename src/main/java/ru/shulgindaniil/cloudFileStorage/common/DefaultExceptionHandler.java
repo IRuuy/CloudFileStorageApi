@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.shulgindaniil.cloudFileStorage.common.exception.ResourceForbiddenException;
 import ru.shulgindaniil.cloudFileStorage.common.exception.ResourceNotFoundException;
-import ru.shulgindaniil.cloudFileStorage.security.exception.PasswordNotEqualConfirmationPasswordException;
+import ru.shulgindaniil.cloudFileStorage.objectStorage.domain.exception.FileObjectAlreadyExistException;
+import ru.shulgindaniil.cloudFileStorage.objectStorage.domain.exception.FileOperationException;
+import ru.shulgindaniil.cloudFileStorage.objectStorage.domain.exception.DirectoryNotEmptyException;
+import ru.shulgindaniil.cloudFileStorage.security.PasswordNotEqualConfirmationPasswordException;
 import ru.shulgindaniil.cloudFileStorage.user.domain.exception.UserAlreadyExistException;
 import ru.shulgindaniil.cloudFileStorage.user.domain.exception.UserNotFoundException;
 
@@ -54,6 +57,9 @@ public class DefaultExceptionHandler {
             UserAlreadyExistException.class,
             AuthenticationException.class,
             PasswordNotEqualConfirmationPasswordException.class,
+            DirectoryNotEmptyException.class,
+            FileObjectAlreadyExistException.class,
+            FileOperationException.class
     })
     public ResponseEntity<ErrorResponse> handleBadRequestException(
             RuntimeException e,
