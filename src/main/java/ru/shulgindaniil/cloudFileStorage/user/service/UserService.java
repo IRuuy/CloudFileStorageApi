@@ -1,8 +1,8 @@
 package ru.shulgindaniil.cloudFileStorage.user.service;
 
-import ru.shulgindaniil.cloudFileStorage.user.web.dto.UserDto;
+import ru.shulgindaniil.cloudFileStorage.user.web.dto.UserDTO;
 
 public interface UserService {
-    UserDto getByEmail(String email);
-    UserDto create(UserDto userDto);
+    UserDTO getByEmail(String email);
+    UserDTO create(UserDTO userDto);
 }

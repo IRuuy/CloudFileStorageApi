@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.shulgindaniil.cloudFileStorage.security.exception.PasswordNotEqualConfirmationPasswordException;
+import ru.shulgindaniil.cloudFileStorage.security.PasswordNotEqualConfirmationPasswordException;
 import ru.shulgindaniil.cloudFileStorage.user.domain.entity.User;
 import ru.shulgindaniil.cloudFileStorage.user.domain.exception.UserAlreadyExistException;
 import ru.shulgindaniil.cloudFileStorage.user.domain.exception.UserNotFoundException;
@@ -12,8 +12,8 @@ import ru.shulgindaniil.cloudFileStorage.user.repository.UserRepository;
 import ru.shulgindaniil.cloudFileStorage.user.service.RoleService;
 import ru.shulgindaniil.cloudFileStorage.user.service.UserService;
 import ru.shulgindaniil.cloudFileStorage.common.util.UniqueIdGenerator;
-import ru.shulgindaniil.cloudFileStorage.user.web.dto.UserDto;
-import ru.shulgindaniil.cloudFileStorage.user.web.mapper.UserMapper;
+import ru.shulgindaniil.cloudFileStorage.user.web.dto.UserDTO;
+import ru.shulgindaniil.cloudFileStorage.user.web.mapper.UserDTOMapper;
 
 import java.util.Set;
 
@@ -21,9 +21,11 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+
+    private final UserDTOMapper userDTOMapper;
 
     private final RoleService roleService;
+
     private final PasswordEncoder passwordEncoder;
     private final UniqueIdGenerator<User> uniqueIdGenerator;
 
@@ -31,32 +33,31 @@ public class UserServiceImpl implements UserService {
     private Integer countBytesForUserId;
 
     @Override
-    public UserDto getByEmail(String email) {
+    public UserDTO getByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(
                 String.format("User with email - '%s' not found.", email)
         ));
 
-        return userMapper.toDto(user);
+        return userDTOMapper.toTarget(user);
     }
 
     @Override
-    public UserDto create(UserDto userDto) {
+    public UserDTO create(UserDTO userDto) {
         passwordValidation(userDto.getPassword(), userDto.getConfirmPassword());
 
-        userRepository.findByEmail(userDto.getEmail()).ifPresent(user -> {
+        if(userRepository.existsByEmail(userDto.getEmail())){
             throw new UserAlreadyExistException(
-                    String.format("User with email - %s already exist!", user.getEmail())
+                    String.format("User with email - %s already exists!", userDto.getEmail())
             );
-        });
+        }
 
         userDto.setRoles(Set.of(roleService.getUserRole()));
-        User user = userMapper.toEntity(userDto);
-
-        user.setId(uniqueIdGenerator.generate(countBytesForUserId));
+        User user = userDTOMapper.fromTarget(userDto);
+        user.setId(uniqueIdGenerator.generate(userRepository, countBytesForUserId));
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         user = userRepository.save(user);
-        return userMapper.toDto(user);
+        return userDTOMapper.toTarget(user);
     }
 
     private void passwordValidation(String password, String confirmPassword) {

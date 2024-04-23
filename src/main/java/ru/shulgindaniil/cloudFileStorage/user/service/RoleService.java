@@ -1,8 +1,8 @@
 package ru.shulgindaniil.cloudFileStorage.user.service;
 
-import ru.shulgindaniil.cloudFileStorage.user.web.dto.RoleDto;
+import ru.shulgindaniil.cloudFileStorage.user.web.dto.RoleDTO;
 
 public interface RoleService {
-    RoleDto getUserRole();
-    RoleDto getAdminRole();
+    RoleDTO getUserRole();
+    RoleDTO getAdminRole();
 }

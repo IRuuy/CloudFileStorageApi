@@ -5,24 +5,24 @@ import org.springframework.stereotype.Service;
 import ru.shulgindaniil.cloudFileStorage.user.domain.entity.Role;
 import ru.shulgindaniil.cloudFileStorage.user.repository.RoleRepository;
 import ru.shulgindaniil.cloudFileStorage.user.service.RoleService;
-import ru.shulgindaniil.cloudFileStorage.user.web.dto.RoleDto;
-import ru.shulgindaniil.cloudFileStorage.user.web.mapper.RoleMapper;
+import ru.shulgindaniil.cloudFileStorage.user.web.dto.RoleDTO;
+import ru.shulgindaniil.cloudFileStorage.user.web.mapper.RoleDTOMapper;
 
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
-    private final RoleMapper roleMapper;
+    private final RoleDTOMapper roleDTOMapper;
 
     @Override
-    public RoleDto getUserRole() {
+    public RoleDTO getUserRole() {
         Role roleUser = roleRepository.findByName("ROLE_USER").get();
-        return roleMapper.toDto(roleUser);
+        return roleDTOMapper.toTarget(roleUser);
     }
 
     @Override
-    public RoleDto getAdminRole() {
+    public RoleDTO getAdminRole() {
         Role roleUser = roleRepository.findByName("ROLE_ADMIN").get();
-        return roleMapper.toDto(roleUser);
+        return roleDTOMapper.toTarget(roleUser);
     }
 }
