@@ -63,4 +63,10 @@ public class FolderFacadeImpl implements FolderFacade {
         fileObjectService.deleteFileObject(folderId, userDetails.getId(), FileObjectType.FOLDER, isRecursed);
         folderStorageService.delete(fileObjectFullDto);
     }
+
+    @Override
+    public ByteArrayResource download(String folderId, UserDetailsImpl userDetails) {
+        FileObjectFullDTO fileObjectFullDto = fileObjectFacade.getFileObject(userDetails, folderId, FileObjectType.FOLDER);
+        return folderStorageService.download(fileObjectFullDto);
+    }
 }

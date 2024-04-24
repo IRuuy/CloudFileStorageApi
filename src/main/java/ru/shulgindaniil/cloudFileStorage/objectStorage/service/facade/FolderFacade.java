@@ -10,4 +10,5 @@ public interface FolderFacade {
     FileObjectFullDTO create(UserDetailsImpl userDetails, FileObjectMiniDTO objectMiniDto);
     FileObjectDTO getHome(UserDetailsImpl userDetails);
     void delete(UserDetailsImpl userDetails, String folderId, boolean isRecursed);
+    ByteArrayResource download(String folderId, UserDetailsImpl userDetails);
 }

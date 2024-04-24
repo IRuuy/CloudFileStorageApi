@@ -41,4 +41,41 @@ public class FolderStorageServiceImpl extends StorageAbstract implements FolderS
 
         deleteObject(path);
     }
+
+    public ByteArrayResource download(FileObjectFullDTO fullFileObjectDto) {
+        String path = createPath(fullFileObjectDto) + "/";
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream)) {
+            addFilesToZip(path, zipOutputStream);
+        } catch (Exception e) {
+            throw new FileOperationException();
+        }
+        return new ByteArrayResource(outputStream.toByteArray());
+    }
+
+    @SneakyThrows
+    private void addFilesToZip(String path, ZipOutputStream zipOutputStream) {
+        Iterable<Result<Item>> allObjects = getAllObjects(path);
+        for (Result<Item> object : allObjects) {
+            String objectName = object.get().objectName();
+
+            if (objectName.equals(path) && !path.isEmpty())
+                continue;
+
+            ZipEntry entry = new ZipEntry(objectName.substring(path.length()));
+            zipOutputStream.putNextEntry(entry);
+
+            GetObjectArgs getObjectArgs = GetObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(objectName)
+                    .build();
+
+            try (GetObjectResponse response = minioClient.getObject(getObjectArgs)) {
+                IOUtils.copy(response, zipOutputStream);
+            }
+
+            zipOutputStream.closeEntry();
+        }
+    }
 }

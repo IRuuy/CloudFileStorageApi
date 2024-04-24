@@ -35,4 +35,21 @@ public class FileStorageServiceImpl extends StorageAbstract implements FileStora
         String path = createPath(fullFileObjectDto);
         deleteObject(path);
     }
+
+    @Override
+    public ByteArrayResource download(FileObjectFullDTO fullFileObjectDto) {
+        String path = createPath(fullFileObjectDto);
+
+        GetObjectArgs getObjectArgs = GetObjectArgs.builder()
+                .bucket(bucketName)
+                .object(path)
+                .build();
+
+        try (GetObjectResponse object = minioClient.getObject(getObjectArgs)) {
+            return new ByteArrayResource(object.readAllBytes());
+        }
+        catch (Exception e) {
+            throw new FileOperationException();
+        }
+    }
 }

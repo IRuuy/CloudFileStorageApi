@@ -46,4 +46,10 @@ public class FileFacadeImpl implements FileFacade {
 
         return fileObjectFullDto;
     }
+
+    @Override
+    public ByteArrayResource download(String fileId, UserDetailsImpl userDetails) {
+        FileObjectFullDTO fileObjectFullDto = fileObjectFacade.getFileObject(userDetails, fileId, FileObjectType.FILE);
+        return fileStorageService.download(fileObjectFullDto);
+    }
 }

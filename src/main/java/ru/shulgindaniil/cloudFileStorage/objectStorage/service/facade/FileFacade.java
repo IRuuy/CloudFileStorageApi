@@ -8,4 +8,5 @@ import ru.shulgindaniil.cloudFileStorage.security.UserDetailsImpl;
 public interface FileFacade {
     FileObjectFullDTO create(MultipartFile file, String parentId, UserDetailsImpl userDetails);
     void delete(String fileId, UserDetailsImpl userDetails);
+    ByteArrayResource download(String fileId, UserDetailsImpl userDetails);
 }
