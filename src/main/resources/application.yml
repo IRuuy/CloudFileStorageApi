@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: cloudFileStorage
+
+  datasource:
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    url: ${POSTGRES_URL}
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.PostgreSQLDialect"
+
+  minio:
+    client:
+      endpoint: ${MINIO_CLIENT_ENDPOINT}
+      accessKey: ${MINIO_ACCESS_KEY}
+      secretKey: ${MINIO_SECRET_KEY}
+    bucket: user-data
+
+app:
+  countBytesToGenerateUserId: 5
+  countBytesToGenerateObjectId: 8
+
+springdoc:
+  swagger-ui:
+    url: /openapi/openapi.json
