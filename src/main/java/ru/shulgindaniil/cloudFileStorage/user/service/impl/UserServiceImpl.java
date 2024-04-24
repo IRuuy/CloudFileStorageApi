@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UniqueIdGenerator<User> uniqueIdGenerator;
 
-    @Value("${app.countOfBytesToGenerateUserId}")
+    @Value("${app.countBytesToGenerateUserId}")
     private Integer countBytesForUserId;
 
     @Override

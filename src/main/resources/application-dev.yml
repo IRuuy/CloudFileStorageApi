@@ -30,7 +30,7 @@ spring:
     bucket: user-data
 
 app:
-  countOfBytesToGenerateUserId: 5
+  countBytesToGenerateUserId: 5
   countBytesToGenerateObjectId: 8
   
 springdoc:
