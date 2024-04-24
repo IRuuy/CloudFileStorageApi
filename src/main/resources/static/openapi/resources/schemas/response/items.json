@@ -1,0 +1,97 @@
+{
+    "items" : {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "nullable": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "Идентификатор файла",
+              "nullable": false,
+              "example": "a396a088"
+            },
+            "type": {
+              "type": "object",
+              "properties" : {
+                "id" : {
+                  "type" : "number",
+                  "title" : "Идентификатор типа",
+                  "nullable" : false,
+                  "example" : 0
+                },
+                "name" : {
+                  "type" : "string",
+                  "title" : "Название типа обьекта",
+                  "nullable" : true,
+                  "example" : "folder"
+                }
+              }
+            },
+            "name" : {
+              "type": "string",
+              "title": "Имя файла",
+              "nullable": false,
+              "example" : "filename.txt"
+            },
+            "parent": {
+              "type": "object",
+              "title": "Родительский обьект",
+              "properties": {
+                "id" : {
+                  "type": "string",
+                  "title": "Идентификатор родитеского обьекта",
+                  "nullable": false,
+                  "example" : "543rf32rf"
+                },
+                "type" : {
+                  "type": "string",
+                  "title": "Тип родитеского обьекта",
+                  "nullable": false,
+                  "example" : "folder"
+                },
+                "name" : {
+                  "type": "string",
+                  "title": "Название родитеского обьекта",
+                  "nullable": false,
+                  "example": "newfolder"
+                }
+              },
+              "nullable": false
+            }
+          }
+        },
+        "example" : [
+          {
+            "id" : "folder",
+            "type" : {
+              "id" : 1,
+              "name" : "folder"
+            },
+            "parent" : {
+              "id" : "0",
+              "type" : {
+                "id" : 1,
+                "name" : "folder"
+              },
+              "name" : "home"
+            }
+          },
+          {
+            "id" : "file.txt",
+            "type" : {
+              "id" : 2,
+              "name" : "file"
+            },
+            "parent" : {
+              "id" : "0",
+              "type" : {
+                "id" : 1,
+                "name" : "folder"
+              },
+              "name" : "home"
+            }
+          }
+        ]
+      }
+}

@@ -13,15 +13,10 @@
             "nullable": false,
             "example" : "contanct.pdf"
           },
-          "parent" : {
-            "type": "object",
-            "properties": {
-              "id" : {
-                "type": "string",
-                "title": "Идентификатор родительского обьекта",
-                "example" : "asdfv3fvsd"
-              }
-            }
+          "parentId" : {
+            "type": "string",
+            "title": "Идентификатор родительского обьекта",
+            "example" : "asdfv3fvsd"
           }
         } 
     }

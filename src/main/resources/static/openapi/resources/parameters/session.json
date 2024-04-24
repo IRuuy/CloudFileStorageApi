@@ -1,6 +1,6 @@
 {
-    "sessionId" : {
-        "name": "SESSIONID",
+    "session" : {
+        "name": "SESSION",
         "description" : "Идентификатор сессии",
         "in": "header",
         "schema": {

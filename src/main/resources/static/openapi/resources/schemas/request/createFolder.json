@@ -8,15 +8,10 @@
             "nullable": false,
             "example" : "newfolder"
           },
-          "parent" : {
-            "type": "object",
-            "properties": {
-              "id" : {
-                "type": "string",
-                "title": "Идентификатор родительского обьекта",
-                "example" : "54ag45th"
-              }
-            }
+          "parentId" : {
+            "type": "string",
+            "title": "Идентификатор родительского обьекта",
+            "example" : "54ag45th"
           }
         }
     }

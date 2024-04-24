@@ -29,6 +29,10 @@
 
     {
       "name": "Upload"
+    },
+
+    {
+      "name": "Download"
     }
   ],
 
@@ -42,13 +46,14 @@
         "$ref" : "./resources/schemas/response/file.json#/file"
       },
 
-      "errorResponse" : {
+      "error" : {
         "$ref" : "./resources/schemas/response/error.json#/error"
       }
     },
+
     "parameters": {
-      "sessionId" : {
-        "$ref" : "./resources/parameters/sessionId.json#/sessionId"
+      "session" : {
+        "$ref" : "./resources/parameters/session.json#/session"
       },
 
       "folderId" : {
@@ -84,8 +89,8 @@
           "200" : {
             "description": "Успешная аутентификация.",
             "headers": {
-              "SESSIONID" : {
-                "$ref" : "#/components/parameters/sessionId"
+              "SESSION" : {
+                "$ref" : "#/components/parameters/session"
               }
             },
             "content": {
@@ -98,11 +103,11 @@
           },
 
           "400" : {
-            "description": "Некорректный запрос",
+            "description": "Некорректный запрос.",
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "example" : {
                   "path" : "/api/v1/auth/signin",
@@ -135,7 +140,7 @@
           "200" : {
             "description": "Успешная регистрастрация.",
             "headers": {
-              "SESSIONID" : {
+              "SESSION" : {
                 "description": "Сессия пользователя",
                 "schema": {
                   "type" : "string"
@@ -153,15 +158,15 @@
           },
 
           "400" : {
-            "description": "Некорректный запрос",
+            "description": "Некорректный запрос.",
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "example" : {
                     "path" : "/api/v1/auth/signup",
-                    "message" : "Данный пользователь уже существует",
+                    "message" : "Bad request.",
                     "statusCode" : 400,
                     "timestamp" : "2024-04-14T17:15:46.609+00:00"
                 }
@@ -172,12 +177,23 @@
       }
     },
 
+    "/api/v1/auth/logout" : {
+      "get" : {
+        "tags": ["Authentication/Authorization"],
+        "responses": {
+          "200" : {
+            "description": "Успешное прекращение сеанса работы в качестве аутентифицированного пользователя."
+          }
+        }
+      }
+    },
+
     "/api/v1/cloud/folder": {
       "post" : {
         "tags": ["Folder"],
         "parameters": [
           {
-            "$ref": "#/components/parameters/sessionId"
+            "$ref": "#/components/parameters/session"
           }
         ],
 
@@ -193,26 +209,26 @@
         
         "responses": {
           "201" : {
-            "description": "Успешно созданная папка",
+            "description": "Успешно созданная папка.",
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "./resources/schemas/response/createFolder.json#/createFolder"
+                  "$ref" : "./resources/schemas/response/folder.json#/folder"
                 }
               }
             }
           },
 
           "400" : {
-            "description": "Некорректный запрос",
+            "description": "Некорректный запрос.",
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "example" : {
                   "path" : "/api/v1/cloud/folder",
-                  "message" : "Некорректный запрос",
+                  "message" : "Bad request.",
                   "statusCode" : 400,
                   "timestamp" : "2024-04-14T17:15:46.609+00:00"
                 }
@@ -223,13 +239,55 @@
       }
     },
     
+    "/api/v1/cloud/folder/home" : {
+      "get" : {
+        "tags": ["Folder"],
+
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/session"
+          }
+        ],
+
+        "responses": {
+          "200" : {
+            "description": "Информация о домашней папке пользователя",
+            "content": {
+              "application/json": {
+                "schema" : {
+                  "$ref" : "#/components/schemas/folder"
+                }
+              }
+            }
+          },
+
+          "401" : {
+            "description": "Требуеся аутентификация.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : {
+                    "path" : "/api/v1/cloud/folder/adsf",
+                    "message" : "Not authenticated!",
+                    "statusCode" : 401,
+                    "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/api/v1/cloud/folder/{folderId}": {
       "get": {
         "tags": ["Folder"],
         
         "parameters": [
           {
-            "$ref": "#/components/parameters/sessionId"
+            "$ref": "#/components/parameters/session"
           },
           {
             "$ref": "#/components/parameters/folderId"
@@ -238,7 +296,7 @@
 
         "responses": {
           "200" : {
-            "description": "Список файлов и каталогов пользователя",
+            "description": "Информация о коталоге.",
             "content": {
               "application/json": {
                 "schema" : {
@@ -253,7 +311,7 @@
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "example" : {
                     "path" : "/api/v1/cloud/folder/adsf",
@@ -266,15 +324,15 @@
           },
 
           "404" : {
-            "description": "Папка не найдена",
+            "description": "Директория не найдена.",
             "content": {
               "application/json" : {
                 "schema" : {
-                    "$ref" : "#/components/schemas/errorResponse"
+                    "$ref" : "#/components/schemas/error"
                 },
                 "example": {
                   "path" : "/api/v1/cloud/folder/adsf",
-                  "message" : "Not authenticated!",
+                  "message" : "Not found directory!",
                   "statusCode" : 404,
                   "timestamp" : "2024-04-14T17:15:46.609+00:00"
                 }
@@ -288,7 +346,7 @@
         "tags": ["Folder"],
         "parameters": [
           {
-            "$ref": "#/components/parameters/sessionId"
+            "$ref": "#/components/parameters/session"
           },
           {
             "$ref": "#/components/parameters/folderId"
@@ -307,32 +365,13 @@
               "application/json" : {
                 
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "example": {
                   "path" : "/api/v1/cloud/folder/asfasd3",
-                  "message" :  "Удаляемая папка содеожит элементы",
+                  "message" :  "Bad request.",
                   "statusCode" : 400,
                   "timestamp" : "2024-04-14T17:15:46.609+00:00"
-                }
-              }
-            }
-          },
-
-          "403" : {
-            "description": "Недостаточно прав для удаления данной папки.",
-            "content": {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
-                },
-                "example" : {
-                  "properties": {
-                    "path" : "/api/v1/cloud/folder/asfasd3",
-                    "message" : "Недостаточно прав",
-                    "statusCode" : 403,
-                    "timestamp" : "2024-04-14T17:15:46.609+00:00"
-                  }
                 }
               }
             }
@@ -343,11 +382,73 @@
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "example": {
                   "path" : "/api/v1/cloud/folder/asfasd3",
-                  "message" : "Удаляемая папка содеожит элементы",
+                  "message" : "The directory is not empty!",
+                  "statusCode" : 404,
+                  "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/api/v1/cloud/folder/{folderId}/items": {
+      "get": {
+        "tags": ["Folder"],
+        
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/session"
+          },
+          {
+            "$ref": "#/components/parameters/folderId"
+          }
+        ],
+
+        "responses": {
+          "200" : {
+            "description": "Список файлов и каталогов определенной папки.",
+            "content": {
+              "application/json": {
+                "schema" : {
+                  "$ref" : "./resources/schemas/response/items.json#/items"
+                }
+              }
+            }
+          },
+
+          "401" : {
+            "description": "Требуеся аутентификация.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : {
+                    "path" : "/api/v1/cloud/folder/adsf",
+                    "message" : "Not authenticated!",
+                    "statusCode" : 401,
+                    "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          },
+
+          "404" : {
+            "description": "Директория не была найдена не найдена.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                    "$ref" : "#/components/schemas/error"
+                },
+                "example": {
+                  "path" : "/api/v1/cloud/folder/adsf",
+                  "message" : "Not found directory!",
                   "statusCode" : 404,
                   "timestamp" : "2024-04-14T17:15:46.609+00:00"
                 }
@@ -359,11 +460,71 @@
     },
 
     "/api/v1/cloud/file/{fileId}" : {
+      "get": {
+        "tags": ["File"],
+        
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/session"
+          },
+          {
+            "$ref": "#/components/parameters/fileId"
+          }
+        ],
+
+        "responses": {
+          "200" : {
+            "description": "Информация о файле.",
+            "content": {
+              "application/json": {
+                "schema" : {
+                  "$ref" : "#/components/schemas/file"
+                }
+              }
+            }
+          },
+
+          "401" : {
+            "description": "Требуеся аутентификация.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : {
+                    "path" : "/api/v1/cloud/file/adsf",
+                    "message" : "Not authenticated!",
+                    "statusCode" : 401,
+                    "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          },
+
+          "404" : {
+            "description": "Файл не найден.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                    "$ref" : "#/components/schemas/error"
+                },
+                "example": {
+                  "path" : "/api/v1/cloud/file/adsf",
+                  "message" : "Not found file with id - adsf!",
+                  "statusCode" : 404,
+                  "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          }
+        }
+      },
+
       "delete" : {
         "tags": ["File"],
         "parameters": [
           {
-            "$ref": "#/components/parameters/sessionId"
+            "$ref": "#/components/parameters/session"
           },
           {
             "$ref": "#/components/parameters/fileId"
@@ -373,34 +534,17 @@
           "204" : {
             "description": "Возвращает пустой ответ, когда файл успешно удалён или перемещена в корзину."
           },
-
-          "403" : {
-            "description": "Недостаточно прав для удаления данного файла.",
-            "content": {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
-                },
-                "example": {
-                  "path" : "/api/v1/cloud/file/asfasd3",
-                  "message" : "Недостаточно прав",
-                  "statusCode" : 403,
-                  "timestamp" : "2024-04-14T17:15:46.609+00:00"
-                }
-              }
-            }
-          },
           
           "404" : {
-            "description": "Удаляемый файл н был найден.",
+            "description": "Удаляемый файл не был найден.",
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorResponse"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "example": {
                   "path" : "/api/v1/cloud/file/asfasd3",
-                  "message" : "Удаляемая папка содеожит элементы",
+                  "message" : "Not found file with id - asfasd3!",
                   "statusCode" : 404,
                   "timestamp" : "2024-04-14T17:15:46.609+00:00"
                 }
@@ -416,7 +560,7 @@
         "tags": ["Upload"],
         "parameters": [
           {
-            "$ref": "#/components/parameters/sessionId"
+            "$ref": "#/components/parameters/session"
           }
         ],
 
@@ -432,7 +576,7 @@
 
         "responses": {
           "200" : {
-            "description": "Файл успешно загружен",
+            "description": "Файл успешно загружен.",
             "content": {
               "application/json" :{
                 "schema" : {
@@ -443,16 +587,16 @@
           },
 
           "400" : {
-            "description": "Некорректный запрос",
+            "description": "Некорректный запрос.",
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref": "#/components/schemas/errorResponse"
+                  "$ref": "#/components/schemas/error"
                 },
                 "example" : {
                   "properties": {
                     "path" : "/api/v1/cloud/upload/file",
-                    "message" : "Некорректный запрос",
+                    "message" : "Bad request!",
                     "statusCode" : 400,
                     "timestamp" : "2024-04-14T17:15:46.609+00:00"
                   }
@@ -462,11 +606,11 @@
           },
 
           "401" : {
-            "description": "Требуеся аутентификация",
+            "description": "Требуеся аутентификация.",
             "content": {
               "application/json" : {
                 "schema" : {
-                  "$ref": "#/components/schemas/errorResponse"
+                  "$ref": "#/components/schemas/error"
                 },
                 "example": {
                   "path" : "/api/v1/cloud/upload/file",
@@ -479,6 +623,127 @@
           }
         }
       }
-    }
+    },
+
+   "/api/v1/cloud/download/file/{fileId}" : {
+      "get" : {
+        "tags": ["Download"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/session"
+          },
+          {
+            "$ref": "#/components/parameters/fileId"
+          }
+        ],
+        "responses": {
+          "200" : {
+            "description": "Файл найден и успешно преобразован в массив байт.",
+            "content": {
+              "application/octet-stream" : {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "example" : "�PNGIHDR�-DW0��DtEXtmxfile%3Cmxfile%20host%3D%22app.diagrams.net%22%20modified%3D%222024-04-16T14%3A26%3A44.401Z%22%20agent%3D%22Mozilla%2F5.0%20(X11%3B%20Linux%20x86_64%3B%20rv%3A124.0)%20Gecko%2F20100101%20Firefox%2F124..."
+                }
+              }
+            }
+          },
+          "401" : {
+            "description": "Требуеся аутентификация.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "path" : "/api/v1/cloud/download/file/asdf",
+                  "message" : "Not authenticated!",
+                  "statusCode" : 401,
+                  "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description": "Файл не найден.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                    "$ref" : "#/components/schemas/error"
+                },
+                "example": {
+                  "path" : "/api/v1/cloud/download/file/asdf",
+                  "message" : "Not found file with id - adsf!",
+                  "statusCode" : 404,
+                  "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "/api/v1/cloud/download/folder/{folderId}" : {
+      "get" : {
+        "tags": ["Download"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/session"
+          },
+          {
+            "$ref": "#/components/parameters/folderId"
+          }
+        ],
+        "responses": {
+          "200" : {
+            "description": "Директория найдена и успешно запакована в .zip архив, а после преобразована в массив байт.",
+            "content": {
+              "application/octet-stream" : {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "example" : "�PNGIHDR�-DW0��DtEXtmxfile%3Cmxfile%20host%3D%22app.diagrams.net%22%20modified%3D%222024-04-16T14%3A26%3A44.401Z%22%20agent%3D%22Mozilla%2F5.0%20(X11%3B%20Linux%20x86_64%3B%20rv%3A124.0)%20Gecko%2F20100101%20Firefox%2F124..."
+                }
+              }
+            }
+          },
+
+          "401" : {
+            "description": "Требуеся аутентификация.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "path" : "/api/v1/cloud/download/folder/asdf",
+                  "message" : "Not authenticated!",
+                  "statusCode" : 401,
+                  "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description": "Директория не найден.",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                    "$ref" : "#/components/schemas/error"
+                },
+                "example": {
+                  "path" : "/api/v1/cloud/download/folder/asdf",
+                  "message" : "Not found folder with id - adsf!",
+                  "statusCode" : 404,
+                  "timestamp" : "2024-04-14T17:15:46.609+00:00"
+                }
+              }
+            }
+          }
+        }
+      }
+    } 
   }
 }

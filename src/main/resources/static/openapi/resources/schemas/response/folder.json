@@ -8,11 +8,29 @@
             "nullable": false,
             "example" : "543rf32rf"
           },
+          "type" : {
+            "type": "string",
+            "title": "Тип обьекта",
+            "nullable": false,
+            "example" : "folder"
+          },
           "name" : {
             "type": "string",
             "title": "Название папки",
             "nullable": false,
             "example" : "newfolder"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "title" : "Время создания",
+            "nullable" : false,
+            "example" : "2024-04-14T17:15:46.609+00:00"
+          },
+          "modifiedAt" : {
+            "type" : "string",
+            "title" : "Время последнего изменения",
+            "nullable" : false,
+            "example" : "2024-04-14T17:15:46.609+00:00"
           },
           "path" : {
             "type": "array",
@@ -29,15 +47,10 @@
                   "title": "Название пути",
                   "nullable": false
                 },
-                "parent" : {
-                  "type": "object",
-                  "properties": {
-                    "id" : {
-                      "type": "string",
-                      "title": "Идентификатор родительского обьекта",
-                      "example" : "54ag45th"
-                    }
-                  }
+                "parentId" : {
+                  "type": "string",
+                  "title": "Идентификатор родительского обьекта",
+                  "example" : "54ag45th"
                 }
               }
             },
@@ -49,63 +62,9 @@
               {
                 "id": "543rf32rf",
                 "name" : "newfolder",
-                "parent" : {
-                  "id" : "0320fds"
-                }
+                "parentId" : "0320fds"
               }
             ]
-          },
-          "items" : {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "nullable": false,
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "title": "Идентификатор файла",
-                  "nullable": false,
-                  "example": "a396a088"
-                },
-                "type": {
-                  "type": "string",
-                  "title": "Тип файла",
-                  "nullable": false,
-                  "example" : "file"
-                },
-                "name" : {
-                  "type": "string",
-                  "title": "Имя файла",
-                  "nullable": false,
-                  "example" : "filename.txt"
-                },
-                "parent": {
-                  "type": "object",
-                  "title": "Родительский обьект",
-                  "properties": {
-                    "id" : {
-                      "type": "string",
-                      "title": "Идентификатор родитеского обьекта",
-                      "nullable": false,
-                      "example" : "543rf32rf"
-                    },
-                    "type" : {
-                      "type": "string",
-                      "title": "Тип родитеского обьекта",
-                      "nullable": false,
-                      "example" : "folder"
-                    },
-                    "name" : {
-                      "type": "string",
-                      "title": "Название родитеского обьекта",
-                      "nullable": false,
-                      "example": "newfolder"
-                    }
-                  },
-                  "nullable": false
-                }
-              }
-            }
           }
         }
     }
