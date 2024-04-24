@@ -37,7 +37,7 @@ public class FileObjectServiceImpl implements FileObjectService {
     @Override
     public FileObjectDTO createFileObject(FileObjectMiniDTO fileObjectMiniDto, String ownerId, Long size) {
         return fileObjectRepository.findByIdAndOwnerIdAndType (
-                fileObjectMiniDto.getParentId(), ownerId, fileObjectMiniDto.getType()
+                fileObjectMiniDto.getParentId(), ownerId, FileObjectType.FOLDER
             ).map(parentObject -> {
                     checkOnExistFileObject(
                             fileObjectMiniDto.getParentId(),
