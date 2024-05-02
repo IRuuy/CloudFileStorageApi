@@ -3,7 +3,7 @@ spring:
     name: cloudFileStorage
 
   datasource:
-    username: ${POSTGRES_USERNAME}
+    username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     url: ${POSTGRES_URL}
     driver-class-name: org.postgresql.Driver
@@ -24,8 +24,8 @@ spring:
   minio:
     client:
       endpoint: ${MINIO_CLIENT_ENDPOINT}
-      accessKey: ${MINIO_ACCESS_KEY}
-      secretKey: ${MINIO_SECRET_KEY}
+      accessKey: ${MINIO_ROOT_USER}
+      secretKey: ${MINIO_ROOT_PASSWORD}
     bucket: user-data
 
 app:
