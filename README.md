@@ -20,7 +20,7 @@ git clone https://github.com/IRuuy/CloudFileStorageApi
 ```
 2. In order to run the application, you need to install docker compose and execute the command at project directory:
 ```shell
-docker compose up -d
+docker compose -f compose/docker-compose.yml up -d
 ```
 
 ## OpenApi
