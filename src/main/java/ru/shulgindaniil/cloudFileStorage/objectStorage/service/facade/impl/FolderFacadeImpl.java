@@ -49,7 +49,7 @@ public class FolderFacadeImpl implements FolderFacade {
             0L
         );
 
-        Collection<FileObjectBaseDTO> allParents = fileObjectService.getAllParents(fileObjectDto.getId());
+        Collection<FileObjectBaseDTO> allParents = fileObjectService.getRecursedParents(fileObjectDto.getId());
         FileObjectFullDTO fileObjectFullDto = fileObjectFullDTOMapper.toTarget(fileObjectDto);
         fileObjectFullDto.setPath(allParents);
 

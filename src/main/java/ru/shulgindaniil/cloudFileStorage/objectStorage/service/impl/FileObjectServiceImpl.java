@@ -92,7 +92,7 @@ public class FileObjectServiceImpl implements FileObjectService {
     }
 
     @Override
-    public Collection<FileObjectBaseDTO> getAllParents(String fileObjectId) {
+    public Collection<FileObjectBaseDTO> getRecursedParents(String fileObjectId) {
         Collection<FileObjectBaseDTO> parents = fileObjectBaseDtoMapper.toTarget(
                 fileObjectRepository.getPath(fileObjectId)
         );

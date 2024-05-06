@@ -15,6 +15,6 @@ public interface FileObjectService {
     FileObjectDTO getBaseParent(String ownerId);
     FileObjectDTO createBaseParent(String ownerId);
 
-    Collection<FileObjectBaseDTO> getAllParents(String fileObjectId);
+    Collection<FileObjectBaseDTO> getRecursedParents(String fileObjectId);
     Collection<FileObjectDTO> getAllChildren(String fileObjectId, String ownerId);
 }

@@ -21,7 +21,7 @@ public class FileObjectFacadeImpl implements FileObjectFacade {
         FileObjectFullDTO fileObjectFullDto = fileObjectFullDTOMapper.toTarget(fileObject);
 
         if(fileObject.getParent() != null){
-            fileObjectFullDto.setPath(fileObjectService.getAllParents(fileObject.getId()));
+            fileObjectFullDto.setPath(fileObjectService.getRecursedParents(fileObject.getId()));
         }
 
         return fileObjectFullDto;
