@@ -3,6 +3,7 @@ package ru.shulgindaniil.cloudFileStorage.objectStorage.service.facade.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.shulgindaniil.cloudFileStorage.common.exception.ResourceNotFoundException;
 import ru.shulgindaniil.cloudFileStorage.objectStorage.domain.entity.FileObjectType;
 import ru.shulgindaniil.cloudFileStorage.objectStorage.service.FileObjectService;
@@ -18,6 +19,7 @@ import ru.shulgindaniil.cloudFileStorage.security.UserDetailsImpl;
 import java.util.Collection;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FolderFacadeImpl implements FolderFacade {
     private final FolderStorageService folderStorageService;

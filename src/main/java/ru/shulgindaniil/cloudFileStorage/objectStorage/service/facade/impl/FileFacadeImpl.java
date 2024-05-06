@@ -3,6 +3,7 @@ package ru.shulgindaniil.cloudFileStorage.objectStorage.service.facade.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.shulgindaniil.cloudFileStorage.objectStorage.domain.entity.FileObjectType;
 import ru.shulgindaniil.cloudFileStorage.objectStorage.service.FileObjectService;
@@ -16,12 +17,14 @@ import ru.shulgindaniil.cloudFileStorage.security.UserDetailsImpl;
 import java.util.Collection;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FileFacadeImpl implements FileFacade {
     private final FileStorageService fileStorageService;
     private final FileObjectService fileObjectService;
     private final FileObjectFullDTOMapper fileObjectFullDTOMapper;
     private final FileObjectFacade fileObjectFacade;
+
     @Override
     public void delete(String fileId, UserDetailsImpl userDetails) {
         FileObjectFullDTO fileObjectFullDto = fileObjectFacade.getFileObject(userDetails, fileId, FileObjectType.FILE);
