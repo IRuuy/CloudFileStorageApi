@@ -1,6 +1,8 @@
 package ru.shulgindaniil.cloudFileStorage.user.domain.exception;
 
-public class UserNotFoundException extends RuntimeException {
+import ru.shulgindaniil.cloudFileStorage.common.exception.ResourceNotFoundException;
+
+public class UserNotFoundException extends ResourceNotFoundException {
     public UserNotFoundException(String message) {
         super(message);
     }

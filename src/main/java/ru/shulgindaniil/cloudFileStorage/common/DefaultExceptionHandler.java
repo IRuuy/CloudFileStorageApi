@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.shulgindaniil.cloudFileStorage.common.exception.BadRequestException;
+import ru.shulgindaniil.cloudFileStorage.common.exception.InternalServerException;
 import ru.shulgindaniil.cloudFileStorage.common.exception.ResourceForbiddenException;
 import ru.shulgindaniil.cloudFileStorage.common.exception.ResourceNotFoundException;
 import ru.shulgindaniil.cloudFileStorage.objectStorage.domain.exception.FileObjectAlreadyExistException;
@@ -19,59 +21,53 @@ import java.util.Date;
 
 @ControllerAdvice
 public class DefaultExceptionHandler {
-    @ExceptionHandler({
-            UserNotFoundException.class,
-            ResourceNotFoundException.class
-    })
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(
             RuntimeException e,
             HttpServletRequest request
     ) {
-        ErrorResponse apiError = new ErrorResponse(
-                request.getRequestURI(),
-                e.getMessage(),
-                HttpStatus.NOT_FOUND.value(),
-                new Date()
-        );
-
-        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+        return createResponse(e, request, HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler({
-            ResourceForbiddenException.class
-    })
+
+    @ExceptionHandler(ResourceForbiddenException.class)
     public ResponseEntity<ErrorResponse> handleForbiddenException(
             RuntimeException e,
             HttpServletRequest request
     ) {
-        ErrorResponse apiError = new ErrorResponse(
-                request.getRequestURI(),
-                e.getMessage(),
-                HttpStatus.FORBIDDEN.value(),
-                new Date()
-        );
-
-        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        return createResponse(e, request, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler({
-            UserAlreadyExistException.class,
-            AuthenticationException.class,
-            PasswordNotEqualConfirmationPasswordException.class,
-            DirectoryNotEmptyException.class,
-            FileObjectAlreadyExistException.class,
-            FileOperationException.class
+            BadRequestException.class,
+            AuthenticationException.class
     })
     public ResponseEntity<ErrorResponse> handleBadRequestException(
             RuntimeException e,
             HttpServletRequest request
     ) {
+        return createResponse(e, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity<ErrorResponse> handleException(
+            RuntimeException e,
+            HttpServletRequest request
+    ) {
+        return createResponse(e, request, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ErrorResponse> createResponse(
+            RuntimeException e,
+            HttpServletRequest request,
+            HttpStatus status
+    ) {
         ErrorResponse apiError = new ErrorResponse(
                 request.getRequestURI(),
                 e.getMessage(),
-                HttpStatus.BAD_REQUEST.value(),
+                status.value(),
                 new Date()
         );
 
-        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiError, status);
     }
 }

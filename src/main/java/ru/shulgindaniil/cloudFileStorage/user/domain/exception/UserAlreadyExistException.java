@@ -1,6 +1,8 @@
 package ru.shulgindaniil.cloudFileStorage.user.domain.exception;
 
-public class UserAlreadyExistException extends RuntimeException {
+import ru.shulgindaniil.cloudFileStorage.common.exception.BadRequestException;
+
+public class UserAlreadyExistException extends BadRequestException {
     public UserAlreadyExistException(String message) {
         super(message);
     }
