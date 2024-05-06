@@ -11,7 +11,6 @@ import ru.shulgindaniil.cloudFileStorage.objectStorage.domain.entity.FileObjectT
 import java.util.Collection;
 import java.util.Optional;
 
-@Repository
 public interface FileObjectRepository extends JpaRepository<FileObject, String> {
     @EntityGraph(attributePaths = {"owner", "parent"})
     Optional<FileObject> findByIdAndOwnerIdAndType(String id, String ownerId, FileObjectType type);
