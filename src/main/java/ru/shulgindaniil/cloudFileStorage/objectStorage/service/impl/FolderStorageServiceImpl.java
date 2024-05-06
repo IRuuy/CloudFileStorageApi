@@ -24,6 +24,7 @@ public class FolderStorageServiceImpl extends StorageAbstract implements FolderS
     public FolderStorageServiceImpl(MinioClient minioClient) {
         super(minioClient);
     }
+
     @Override
     public void create(FileObjectFullDTO fullFileObjectDto) {
         String path = createPath(fullFileObjectDto) + "/";
